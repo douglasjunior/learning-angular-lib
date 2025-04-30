@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { ButtonComponent } from 'design-system-lib';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ButtonComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [],
+  template: `
+    <h1>Design System Preview</h1>
+    <p>
+    Run \`yarn start\` to start the Storybook server.
+    </p>
+    `
 })
 export class AppComponent {
-  title = 'design-system-preview';
-
-  onClick(event: MouseEvent): void {
-    console.log('Button clicked!', event);
-    alert('Button clicked app!');
-  }
 }

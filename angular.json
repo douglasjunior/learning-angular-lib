@@ -122,6 +122,36 @@
             ],
             "scripts": []
           }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/design-system-preview/.storybook",
+            "browserTarget": "design-system-preview:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/design-system-preview"
+            ],
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/design-system-preview/.storybook",
+            "browserTarget": "design-system-preview:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/design-system-preview"
+            ],
+            "outputDir": "dist/storybook/design-system-preview"
+          }
         }
       }
     }

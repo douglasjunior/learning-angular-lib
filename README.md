@@ -11,11 +11,10 @@ yarn install
 To build the library on watch mode, run:
 
 ```bash
-cd projects/design-system-lib
-yarn build --watch
+yarn build design-system-lib --watch
 ```
 
-To run the development server, on the **workspace root** run:
+To run the Storybook server, on the **workspace root** run:
 
 ```bash
 yarn start
@@ -66,6 +65,39 @@ Expose the components in the library `projects/design-system-lib/src/public-api.
 
 ```typescript
 export * from './lib/components/<component-name>/<component-name>.component';
+```
+
+To add Storybook, run on the **workspace root**:
+
+```bash
+npx storybook@latest init
+```
+
+If ask to select the project, select the `design-system-preview` application.
+
+In the `projects/design-system-preview/.storybook/tsconfig.doc.json`, exclude the `design-system-preview` components from the TS scope and add the library components:
+
+```json
+{
+  "include": [
+    "...",
+    "../src/app/**/*" // <-- Add this
+  ],
+  "exclude": [
+    "...",
+    "../../design-system-lib/src/lib/**/*.component.ts" // <-- Add this
+  ]
+}
+```
+
+Remove any extra files from `projects/design-system-preview/src/stories` folder.
+
+Add `projects/design-system-preview/documentation.json` to the `.gitignore` file.
+
+Replace `start` script in the root `package.json` with:
+
+```json
+    "start": "ng run design-system-preview:storybook",
 ```
 
 Then, run the [Development server](#development-server) instruction above.
