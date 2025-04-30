@@ -15,10 +15,57 @@ cd projects/design-system-lib
 yarn build --watch
 ```
 
-To run the development server, on the workspace root run:
+To run the development server, on the **workspace root** run:
 
 ```bash
 yarn start
 ```
 
 Then open your browser and navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Replicating this example
+
+To replicate this example, first you will need to create a new Angular workspace. You can do this by running:
+
+```bash
+ng new <workspace-name> --no-create-application
+```
+
+Then, navigate to the workspace directory and create a new library:
+
+```bash
+cd <workspace-name>
+ng generate library design-system-lib
+```
+
+Create a new application to test the library manually or with the help of Storybook:
+
+```bash
+ng generate application design-system-preview
+```
+
+Add the library as a dependency to the application, on **root `package.json`**:
+
+```json
+{
+  "dependencies": {
+    ...
+    "design-system-lib": "file:dist/design-system-lib",
+  }
+}
+```
+
+Add some components to the library. You can do this by running:
+
+```bash
+cd projects/design-system-lib
+ng generate component src/lib/components/<component-name>
+```
+
+Expose the components in the library `projects/design-system-lib/src/public-api.ts` file:
+
+```typescript
+export * from './lib/components/<component-name>/<component-name>.component';
+```
+
+Then, run the [Development server](#development-server) instruction above.
