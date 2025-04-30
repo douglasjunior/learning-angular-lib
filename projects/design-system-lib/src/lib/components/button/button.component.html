@@ -1,0 +1,9 @@
+<button 
+  [disabled]="disabled" 
+  [class.loading]="loading" 
+  class="lib-button">
+  <span class="button-content">
+    <ng-content></ng-content>
+  </span>
+  <span *ngIf="loading" class="loading-spinner"></span>
+</button>
