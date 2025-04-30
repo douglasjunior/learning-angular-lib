@@ -12,11 +12,11 @@ export class ButtonComponent {
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef<HTMLButtonElement>) {
     this.elementRef.nativeElement.addEventListener('click', this.handleClick, true);
   }
   
-  private handleClick = (event: PointerEvent): boolean => {
+  private handleClick = (event: MouseEvent): boolean => {
     if (this.disabled || this.loading) {
       event.stopPropagation();
       event.preventDefault();
