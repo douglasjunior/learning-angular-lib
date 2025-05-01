@@ -4,11 +4,14 @@
   "scripts": {
     "ng": "ng",
     "start": "ng run design-system-preview:storybook",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "build": "ng build design-system-lib",
+    "watch": "ng build design-system-lib --watch",
     "test": "ng test"
   },
   "private": true,
+  "workspaces": [
+    "projects/*"
+  ],
   "dependencies": {
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
@@ -44,5 +47,6 @@
     "ng-packagr": "^19.2.0",
     "storybook": "^8.6.12",
     "typescript": "~5.7.2"
-  }
+  },
+  "packageManager": "yarn@4.9.1"
 }

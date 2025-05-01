@@ -60,7 +60,8 @@
               }
             ],
             "styles": [
-              "projects/design-system-preview/src/styles.css"
+              "projects/design-system-preview/src/styles.css",
+              "dist/design-system-lib/src/lib/styles/theme.css"
             ],
             "scripts": []
           },
@@ -155,5 +156,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

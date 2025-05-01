@@ -5,15 +5,15 @@
   padding: 0 16px;
   border: none;
   border-radius: 4px;
-  background-color: #6200ee;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--white);
   font-family: Roboto, sans-serif;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  box-shadow: var(--shadow-1);
   transition: background-color 0.3s, box-shadow 0.3s;
   overflow: hidden;
   display: inline-flex;
@@ -24,18 +24,18 @@
 }
 
 .lib-button:hover {
-  background-color: #3700b3;
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  background-color: var(--primary-color-dark);
+  box-shadow: var(--shadow-2);
 }
 
 .lib-button:active {
-  background-color: #3700b3;
-  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  background-color: var(--primary-color-dark);
+  box-shadow: var(--shadow-3);
 }
 
 .lib-button:disabled {
-  background-color: rgba(0, 0, 0, 0.12);
-  color: rgba(0, 0, 0, 0.38);
+  background-color: var(--disabled-background);
+  color: var(--disabled-text);
   box-shadow: none;
   cursor: default;
 }
@@ -46,18 +46,14 @@
   justify-content: center;
 }
 
-.lib-button.loading {
-  cursor: default;
-}
-
 /* Efeito de loading */
 .loading-spinner {
   margin-left: 8px;
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--spinner-border);
   border-radius: 50%;
-  border-top-color: #fff;
+  border-top-color: var(--white);
   animation: spin 1s ease-in-out infinite;
 }
 
@@ -69,6 +65,7 @@
 
 /* Estilos para quando o botão estiver em loading */
 .lib-button.loading {
+  cursor: default;
   pointer-events: none;
   opacity: 0.9;
 }
@@ -81,7 +78,7 @@
   left: 50%;
   width: 5px;
   height: 5px;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--ripple-color);
   opacity: 0;
   border-radius: 100%;
   transform: scale(1, 1) translate(-50%);

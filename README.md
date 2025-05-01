@@ -97,7 +97,43 @@ Add `projects/design-system-preview/documentation.json` to the `.gitignore` file
 Replace `start` script in the root `package.json` with:
 
 ```json
-    "start": "ng run design-system-preview:storybook",
+  "start": "ng run design-system-preview:storybook",
 ```
 
-Then, run the [Development server](#development-server) instruction above.
+Then, to run the all parts together, follow the [Development server](#development-server) instruction above.
+
+## Adding global styles
+
+To add global styles to the library, create a `projects/design-system-lib/src/lib/styles/theme.css` file and add your styles there.
+
+Then, declare the styles as an asset in the `projects/design-system-lib/ng-package.json` file:
+
+```json
+{
+  ...,
+  "assets": [
+    "./src/lib/styles/theme.css" // <-- Add this
+  ]
+}
+```
+
+Then, import the styles in the `angular.json` file:
+
+```json
+{
+  "projects": {
+    "design-system-preview": {
+      "architect": {
+        "build": {
+          "options": {
+            "styles": [
+              "projects/design-system-preview/src/styles.css",
+              "dist/design-system-lib/src/lib/styles/theme.css" // <-- Add this
+            ],
+          }
+        }
+      }
+    }
+  }
+}
+```
