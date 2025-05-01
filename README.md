@@ -137,3 +137,35 @@ Then, import the styles in the `angular.json` file:
   }
 }
 ```
+
+## Publishing the library to private NPM registry
+
+To publish the library to a private NPM registry, you can use the (verdaccio)[https://verdaccio.org/] registry server. 
+
+To run it, just run:
+
+```bash
+# start the registry server
+docker-compose up -d
+# create a new user
+npm adduser --registry http://localhost:4873
+# login to the registry
+npm login --registry http://localhost:4873
+```
+
+> Open the **verdaccio** web interface at http://localhost:4873 .
+
+Then, build the library:
+
+```bash
+ng build design-system-lib
+```
+
+Then, publish the library to the registry:
+
+```bash
+cd dist/design-system-lib
+npm publish --registry http://localhost:4873
+```
+
+> Remember to update the version in the `projects/design-system-lib/package.json` file before publishing again. You can use `npm version <newversion>` to do this.

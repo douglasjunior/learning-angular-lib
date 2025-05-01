@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  verdaccio:
+    privileged: true
+    container_name: verdaccio
+    image: verdaccio/verdaccio:latest
+    ports:
+      - "4873:4873"
+    volumes:
+      - "./verdaccio/storage:/verdaccio/storage"
+      - "./verdaccio/config:/verdaccio/conf"
+      - "./verdaccio/plugins:/verdaccio/plugins"
+    environment:
+      - VERDACCIO_USER_UID=0
+      - VERDACCIO_USER_GID=0
+    user: "root"
