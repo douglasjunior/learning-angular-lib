@@ -1,4 +1,4 @@
-# DesignSystemAngular
+# Learning Angular Libraries
 
 ## Development server
 
