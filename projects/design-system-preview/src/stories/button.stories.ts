@@ -14,7 +14,6 @@ const meta: Meta<AngularStory<ButtonComponent>> = {
     handleClick: fn(),
   },
   render: (args) => {
-    console.log('args', args);
     return ({
       props: args,
       template: `
