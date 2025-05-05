@@ -8,13 +8,7 @@ To install dependencies, run:
 yarn install
 ```
 
-To build the library on watch mode, run:
-
-```bash
-yarn build design-system-lib --watch
-```
-
-To run the Storybook server, on the **workspace root** run:
+To build the library on watch mode and run the Storybook server, on the **workspace root** run:
 
 ```bash
 yarn start
@@ -93,6 +87,56 @@ In the `projects/design-system-preview/.storybook/tsconfig.doc.json`, exclude th
 Remove any extra files from `projects/design-system-preview/src/stories` folder.
 
 Add `projects/design-system-preview/documentation.json` to the `.gitignore` file.
+
+Add the following args to the Compodoc cli in `angular.json` to exclude private and internal members from the documentation:
+
+```json
+        "storybook": {
+          ...
+          "options": {
+            ...
+            "compodocArgs": [
+              "-e",
+              "json",
+              "--disablePrivate", // <-- Add this
+              "--disableInternal", // <-- Add this
+              "-d",
+              "projects/design-system-preview"
+            ],
+          }
+        },
+        "build-storybook": {
+          ...
+          "options": {
+            ...
+            "compodocArgs": [
+              "-e",
+              "json",
+              "--disablePrivate", // <-- Add this
+              "--disableInternal", // <-- Add this
+              "-d",
+              "projects/design-system-preview"
+            ],
+          }
+        }
+```
+
+Install the `npm-run-all` to run multiple scripts in parallel:
+
+```bash
+yarn add -D npm-run-all
+```
+
+Then, change the `watch` and `start` scripts in the `package.json` file:
+
+```json
+  "scripts": {
+    "start": "run-p watch start:storybook",
+    "start:storybook": "ng run design-system-preview:storybook",
+    "watch": "ng build design-system-lib --watch",
+    ...
+  },
+```
 
 Replace `start` script in the root `package.json` with:
 

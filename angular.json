@@ -133,6 +133,8 @@
             "compodocArgs": [
               "-e",
               "json",
+              "--disablePrivate",
+              "--disableInternal",
               "-d",
               "projects/design-system-preview"
             ],
@@ -148,6 +150,8 @@
             "compodocArgs": [
               "-e",
               "json",
+              "--disablePrivate",
+              "--disableInternal",
               "-d",
               "projects/design-system-preview"
             ],
