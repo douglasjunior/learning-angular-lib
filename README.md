@@ -75,11 +75,11 @@ In the `projects/design-system-preview/.storybook/tsconfig.doc.json`, exclude th
 {
   "include": [
     "...",
-    "../src/app/**/*" // <-- Add this
+    "../../design-system-lib/src/lib/**/*.component.ts" // <-- Add this
   ],
   "exclude": [
     "...",
-    "../../design-system-lib/src/lib/**/*.component.ts" // <-- Add this
+    "../src/app/**/*" // <-- Add this
   ]
 }
 ```
@@ -184,7 +184,7 @@ Then, import the styles in the `angular.json` file:
 
 ## Publishing the library to private NPM registry
 
-To publish the library to a private NPM registry, you can use the (verdaccio)[https://verdaccio.org/] registry server. 
+To publish the library to a private NPM registry, you can use the [verdaccio](https://verdaccio.org/) registry server. 
 
 To run it, just run:
 
