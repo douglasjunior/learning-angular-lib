@@ -81,11 +81,11 @@ In the `projects/design-system-preview/.storybook/tsconfig.doc.json`, exclude th
 {
   "include": [
     "...",
-    "../src/app/**/*" // <-- Add this
+    "../../design-system-lib/src/lib/**/*.component.ts" // <-- Add this
   ],
   "exclude": [
     "...",
-    "../../design-system-lib/src/lib/**/*.component.ts" // <-- Add this
+    "../src/app/**/*" // <-- Add this
   ]
 }
 ```
