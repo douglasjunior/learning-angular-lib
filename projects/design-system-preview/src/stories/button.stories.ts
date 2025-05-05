@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { fn } from '@storybook/test';
 
-import { ButtonComponent } from 'design-system-lib';
+import { ButtonComponent } from '@design-system/lib';
 import { AngularStory } from '../utils/storybook';
 
 const meta: Meta<AngularStory<ButtonComponent>> = {

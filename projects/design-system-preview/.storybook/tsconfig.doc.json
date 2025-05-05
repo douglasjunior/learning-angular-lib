@@ -5,6 +5,6 @@
   // Exclude all files that are not needed for documentation generation.
   "exclude": ["../src/test.ts", "../src/**/*.spec.ts", "../src/**/*.stories.ts", "../src/app/**/*"],
   // Please make sure to include all files from which Compodoc should generate documentation.
-  "include": ["../src/**/*", "../../design-system-lib/src/lib/**/*.component.ts"],
+  "include": ["../src/**/*", "../../design-system/lib/src/lib/**/*.component.ts"],
   "files": ["./typings.d.ts"]
 }

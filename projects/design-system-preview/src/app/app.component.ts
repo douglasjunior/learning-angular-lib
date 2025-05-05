@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ButtonComponent, IconButtonComponent } from 'design-system-lib';
+import { ButtonComponent, IconButtonComponent } from '@design-system/lib';
 
 @Component({
   selector: 'app-root',

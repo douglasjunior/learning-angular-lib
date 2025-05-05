@@ -1,6 +1,8 @@
 {
   "name": "design-system-preview",
-  "version": "1.0.0",
-  "main": "index.js",
-  "private": true
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@design-system/lib": "workspace:^"
+  }
 }

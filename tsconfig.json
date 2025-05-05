@@ -4,9 +4,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "design-system-lib": [
-        "./dist/design-system-lib"
-      ]
+      "@design-system/lib": [
+        "./dist/design-system/lib"
+      ],
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

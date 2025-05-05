@@ -1,0 +1,25 @@
+{
+  "name": "@design-system/lib",
+  "version": "0.0.5",
+  "scripts": {
+    "build": "npx run-s build:tsc build:copy",
+    "build:tsc": "npx tsc -p tsconfig.schematics.json",
+    "build:copy": "npx copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../../dist/design-system/lib"
+  },
+  "peerDependencies": {
+    "@angular/common": "^19.2.0",
+    "@angular/core": "^19.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/copyfiles": "^2",
+    "copyfiles": "^2.4.1"
+  },
+  "sideEffects": false,
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": "dependencies"
+  }
+}

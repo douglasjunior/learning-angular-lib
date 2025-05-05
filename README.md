@@ -28,7 +28,7 @@ Then, navigate to the workspace directory and create a new library:
 
 ```bash
 cd <workspace-name>
-ng generate library design-system-lib
+ng generate library @design-system/lib
 ```
 
 Create a new application to test the library manually or with the help of Storybook:
@@ -37,13 +37,15 @@ Create a new application to test the library manually or with the help of Storyb
 ng generate application design-system-preview
 ```
 
-Add the library as a dependency to the application, on **root `package.json`**:
+Create a `projects/design-system-preview/package.json` and add the dependency for `@design-system/lib`:
 
 ```json
 {
+  "name": "design-system-preview",
+  "version": "0.0.0",
+  "private": true,
   "dependencies": {
-    ...
-    "design-system-lib": "file:dist/design-system-lib",
+    "@design-system/lib": "workspace:^"
   }
 }
 ```
@@ -51,15 +53,31 @@ Add the library as a dependency to the application, on **root `package.json`**:
 Add some components to the library. You can do this by running:
 
 ```bash
-cd projects/design-system-lib
+cd projects/@design-system/lib
 ng generate component src/lib/components/<component-name>
 ```
 
-Expose the components in the library `projects/design-system-lib/src/public-api.ts` file:
+Expose the components in the library `projects/@design-system/lib/src/public-api.ts` file:
 
 ```typescript
 export * from './lib/components/<component-name>/<component-name>.component';
 ```
+
+Update the `workspaces` field in the `package.json` file to include the library:
+
+```json
+{
+  ...
+  "workspaces": {
+    "packages": [
+      "projects/design-system/lib",
+      "projects/design-system-preview"
+    ]
+  },
+}
+```
+
+## Adding Storybook
 
 To add Storybook, run on the **workspace root**:
 
@@ -75,7 +93,7 @@ In the `projects/design-system-preview/.storybook/tsconfig.doc.json`, exclude th
 {
   "include": [
     "...",
-    "../../design-system-lib/src/lib/**/*.component.ts" // <-- Add this
+    "../../@design-system/lib/src/lib/**/*.component.ts" // <-- Add this
   ],
   "exclude": [
     "...",
@@ -127,30 +145,22 @@ Install the `npm-run-all` to run multiple scripts in parallel:
 yarn add -D npm-run-all
 ```
 
-Then, change the `watch` and `start` scripts in the `package.json` file:
+Then, change the `watch`, and `start` scripts in the `package.json` file:
 
 ```json
   "scripts": {
+    ...
     "start": "run-p watch start:storybook",
     "start:storybook": "ng run design-system-preview:storybook",
-    "watch": "ng build design-system-lib --watch",
-    ...
+    "watch": "ng build @design-system/lib --watch",
   },
 ```
 
-Replace `start` script in the root `package.json` with:
-
-```json
-  "start": "ng run design-system-preview:storybook",
-```
-
-Then, to run the all parts together, follow the [Development server](#development-server) instruction above.
-
 ## Adding global styles
 
-To add global styles to the library, create a `projects/design-system-lib/src/lib/styles/theme.css` file and add your styles there.
+To add global styles to the library, create a `projects/@design-system/lib/src/lib/styles/theme.css` file and add your styles there.
 
-Then, declare the styles as an asset in the `projects/design-system-lib/ng-package.json` file:
+Then, declare the styles as an asset in the `projects/@design-system/lib/ng-package.json` file:
 
 ```json
 {
@@ -165,6 +175,7 @@ Then, import the styles in the `angular.json` file:
 
 ```json
 {
+  ...
   "projects": {
     "design-system-preview": {
       "architect": {
@@ -172,12 +183,86 @@ Then, import the styles in the `angular.json` file:
           "options": {
             "styles": [
               "projects/design-system-preview/src/styles.css",
-              "dist/design-system-lib/src/lib/styles/theme.css" // <-- Add this
+              "node_modules/@design-system/lib/src/lib/styles/theme.css" // <-- Add this
             ],
           }
         }
       }
     }
+  }
+}
+```
+
+## Adding Angular schematics
+
+When you create a new library, Angular CLI does not create the schematics folder for you. You will need to create it manually.
+
+This is necessary to Angular CLI to automate the installation of the library in the project when you run `ng add @design-system/lib`.
+
+To add Angular schematics to the library, create this folder structure in `projects/design-system/lib`:
+
+```
+projects
+└── design-system
+    └── lib
+        ├── schematics
+        │   ├── collection.json
+        │   ├── ng-add
+        │   │   └── index.ts
+        ├── tsconfig.schematics.json
+```
+
+### collection.json
+
+```json
+{
+  "$schema": "../../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Adds Design System styles to the project.",
+      "factory": "./ng-add/index#ngAdd"
+    }
+  }
+}
+```
+
+### ng-add/index.ts
+
+In the (index.ts)[projects/design-system/lib/schematics/ng-add/index.ts] file, write the code to parse the `angular.json` file and add the library styles to the project.
+
+### tsconfig.schematics.json
+
+Angular does not compile the schematics code by default. You will need to create a new (`tsconfig.schematics.json` like this)[projects/design-system/lib/tsconfig.schematics.json].
+
+### package.json
+
+In the `projects/@design-system/lib/package.json` file, add the `schematics` field and the `build` script:
+
+```json
+{
+  ...
+  "scripts": {
+    "build": "npx run-s build:tsc build:copy",
+    "build:tsc": "npx tsc -p tsconfig.schematics.json",
+    "build:copy": "npx copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../../dist/design-system/lib"
+  },
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": "dependencies"
+  }
+}
+```
+
+In the `package.json` in the workspace root, update the `build` scripts to build the schematics too:
+
+```json
+{
+  ...
+  "scripts": {
+    ...
+    "build": "run-s build:lib build:schematics",
+    "build:lib": "ng build @design-system/lib",
+    "build:schematics": "cd projects/design-system/lib && yarn build"
   }
 }
 ```
@@ -202,14 +287,44 @@ npm login --registry http://localhost:4873
 Then, build the library:
 
 ```bash
-ng build design-system-lib
+ng build @design-system/lib
 ```
 
 Then, publish the library to the registry:
 
 ```bash
-cd dist/design-system-lib
+cd dist/design-system/lib
 npm publish --registry http://localhost:4873
 ```
 
-> Remember to update the version in the `projects/design-system-lib/package.json` file before publishing again. You can use `npm version <newversion>` to do this.
+> Remember to update the version in the `projects/@design-system/lib/package.json` file before publishing again. You can use `npm version <newversion>` to do this.
+
+## Installing the library in another project
+
+To install the library in another project, first you need to add the private registry to `@design-system` scope.
+
+For Yarn, create a `.yarnrc` file in the root of the project and add the following line:
+
+```yml
+npmScopes:
+  design-system:
+    npmRegistryServer: "http://localhost:4873/"
+    npmAlwaysAuth: false
+    npmAuthToken: ""
+
+unsafeHttpWhitelist:
+  - "localhost"
+```
+
+For NPM, create a `.npmrc` file in the root of the project and add the following line:
+
+```properties
+@design-system:registry=http://localhost:4873/
+registry=https://registry.npmjs.org/
+```
+
+Then, install the library:
+
+```bash
+ng add @design-system/lib
+```

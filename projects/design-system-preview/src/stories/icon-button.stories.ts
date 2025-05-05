@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { fn } from '@storybook/test';
 
-import { IconButtonComponent } from 'design-system-lib';
+import { IconButtonComponent } from '@design-system/lib';
 import { AngularStory } from '../utils/storybook';
 
 const meta: Meta<AngularStory<IconButtonComponent>> = {

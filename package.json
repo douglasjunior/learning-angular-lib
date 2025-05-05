@@ -5,14 +5,18 @@
     "ng": "ng",
     "start": "run-p watch start:storybook",
     "start:storybook": "ng run design-system-preview:storybook",
-    "build": "ng build design-system-lib",
-    "watch": "ng build design-system-lib --watch",
-    "test": "ng test"
+    "watch": "ng build @design-system/lib --watch",
+    "test": "ng test",
+    "build": "run-s build:lib build:schematics",
+    "build:lib": "ng build @design-system/lib",
+    "build:schematics": "cd projects/design-system/lib && yarn build"
   },
-  "private": true,
-  "workspaces": [
-    "projects/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "projects/design-system/lib",
+      "projects/design-system-preview"
+    ]
+  },
   "dependencies": {
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
@@ -21,7 +25,6 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
-    "design-system-lib": "file:dist/design-system-lib",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -38,6 +41,7 @@
     "@storybook/angular": "^8.6.12",
     "@storybook/blocks": "^8.6.12",
     "@storybook/test": "^8.6.12",
+    "@types/copyfiles": "^2",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.0",
